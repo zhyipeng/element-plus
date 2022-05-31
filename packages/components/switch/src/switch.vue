@@ -120,7 +120,7 @@ const { inputId } = useFormItemInputId(props, {
 
 const switchSize = useSize()
 const switchDisabled = useDisabled(computed(() => props.loading))
-const isControlled = ref(props.value === false)
+const isControlled = ref(props.modelValue !== false)
 const input = ref<HTMLInputElement>()
 const core = ref<HTMLSpanElement>()
 
@@ -194,7 +194,10 @@ const switchValue = () => {
 
   const shouldChange = beforeChange()
 
-  const isPromiseOrBool = isPromise(shouldChange) || isBoolean(shouldChange)
+  const isPromiseOrBool = [
+    isPromise(shouldChange),
+    isBoolean(shouldChange),
+  ].includes(true)
   if (!isPromiseOrBool) {
     throwError(
       COMPONENT_NAME,
